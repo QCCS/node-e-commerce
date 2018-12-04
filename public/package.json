@@ -1,5 +1,5 @@
 {
-  "name": "m-mall-admin",
+  "name": "node-e-commerce",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
@@ -58,6 +58,6 @@
     "build": "cross-env NODE_ENV=production webpack --progress --profile --colors",
     "start": "npm run server"
   },
-  "author": "skyvow",
+  "author": "qccs",
   "license": "MIT"
 }

@@ -7,13 +7,13 @@ MongoDB、Redis
 框架
 Express
 
-前端
+前端 public
 ```
 cd public 
 npm i
 npm run build
 ```
-后端启动
+后端 src
 ```
 npm i
 npm run start

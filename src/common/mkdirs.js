@@ -1,67 +1,67 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'fs';
+import path from 'path';
 
 // 创建多层文件夹 同步
 function mkdirsSync(dirpath, mode) {
-	if (!fs.existsSync(dirpath)) {
-        let pathtmp
+    if (!fs.existsSync(dirpath)) {
+        let pathtmp;
         dirpath.split(path.sep).forEach(dirname => {
             if (pathtmp) {
-                pathtmp = path.join(pathtmp, dirname)
+                pathtmp = path.join(pathtmp, dirname);
             } else {
-                pathtmp = dirname
+                pathtmp = dirname;
             }
 
             if (!fs.existsSync(pathtmp)) {
                 if (!fs.mkdirSync(pathtmp, mode)) {
-                    return false
+                    return false;
                 }
             }
-        })
+        });
     }
-    return true
+    return true;
 }
 
 // 创建多层文件夹 异步
 function mkdirs(dirpath, mode, callback) {
-    callback = callback || function() {}
+    callback = callback || function() {};
     fs.exists(dirpath, exitsmain => {
         if (!exitsmain) {
             //目录不存在
-            let pathtmp
-            let pathlist = dirpath.split(path.sep)
-            let pathlistlength = pathlist.length
-            let pathlistlengthseed = 0
+            // let pathtmp;
+            let pathlist = dirpath.split(path.sep);
+            // let pathlistlength = pathlist.length;
+            // let pathlistlengthseed = 0;
 
             mkdir_auto_next(mode, pathlist, pathlist.length, callresult => {
                 if (callresult) {
-                    callback(true)
+                    callback(true);
                 } else {
-                    callback(false)
+                    callback(false);
                 }
-            })
+            });
         } else {
-            callback(true)
+            callback(true);
         }
-    })
+    });
 }
 
 // 异步文件夹创建 递归方法
 function mkdir_auto_next(mode, pathlist, pathlistlength, callback, pathlistlengthseed, pathtmp) {
-    callback = callback || function() {}
+    callback = callback || function() {};
     if (pathlistlength > 0) {
 
         if (!pathlistlengthseed) {
-            pathlistlengthseed = 0
+            pathlistlengthseed = 0;
         }
 
         if (pathlistlengthseed >= pathlistlength) {
-            callback(true)
+            callback(true);
         } else {
             if (pathtmp) {
-                pathtmp = path.join(pathtmp, pathlist[pathlistlengthseed])
+                pathtmp = path.join(pathtmp, pathlist[pathlistlengthseed]);
             } else {
-                pathtmp = pathlist[pathlistlengthseed]
+                pathtmp = pathlist[pathlistlengthseed];
             }
 
             fs.exists(pathtmp, exists => {
@@ -69,27 +69,27 @@ function mkdir_auto_next(mode, pathlist, pathlistlength, callback, pathlistlengt
                     fs.mkdir(pathtmp, mode, isok => {
                         if (!isok) {
                             mkdir_auto_next(mode, pathlist, pathlistlength, callresult => {
-                                callback(callresult)
+                                callback(callresult);
                             },
-                            pathlistlengthseed + 1, pathtmp)
+                            pathlistlengthseed + 1, pathtmp);
                         } else {
-                            callback(false)
+                            callback(false);
                         }
-                    })
+                    });
                 } else {
                     mkdir_auto_next(mode, pathlist, pathlistlength, callresult => {
-                        callback(callresult)
+                        callback(callresult);
                     },
-                    pathlistlengthseed + 1, pathtmp)
+                    pathlistlengthseed + 1, pathtmp);
                 }
-            })
+            });
         }
     } else {
-        callback(true)
+        callback(true);
     }
 }
 
 export default {
     mkdirsSync: mkdirsSync, 
     mkdirs: mkdirs, 
-}
+};
